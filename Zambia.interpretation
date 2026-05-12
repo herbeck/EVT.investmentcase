@@ -1,0 +1,41 @@
+
+
+## What the output Table shows for Zambia
+
+Each row is a **cumulative intervention package** — Scenario 4 doesn't just add infant prophylaxis scale-up in isolation, it stacks it on top of everything in Scenario 3. Reading down the table is reading progressively more ambitious (and expensive) programs. The question the investment case asks is: **how much does each additional layer of investment buy you in terms of HIV infections prevented?**
+
+---
+
+## Reading the columns
+
+**Infant and maternal infections averted** are relative to the Baseline (50% infant prophylaxis, 80% TLD). Infant infections averted range from 26 (Scenario 1) to 1,777 (Scenario 9). Maternal infections only appear from Scenario 8 onward, where PrEP is introduced — the first 7 scenarios have no impact on maternal acquisition.
+
+**% VT reduction** is the infant column expressed as a share of baseline infant infections. A 47–48% reduction in vertical transmission is achievable at the higher scenarios, which is substantial for a single-year cohort model.
+
+**Total cost** is the estimated annual programme cost for all interventions combined, applied to the full Zambia PBFW population. It ranges from ~$19.4M (Scenario 1, slightly below baseline because TLD saves money) to ~$54.9M (Scenario 9).
+
+**Incremental cost** is the additional spend versus baseline, not versus the previous scenario. This tells you the gross new investment required.
+
+**ICER** is the incremental cost-effectiveness ratio — additional cost per additional infection averted — but calculated *sequentially* (each scenario vs. the one before it). This is the key metric for the investment case because it tells you the marginal value of each additional layer of intervention.
+
+---
+
+## The investment case story
+
+**Scenario 1 is cost-saving.** Completing the transition from TLE to TLD (50% → 98%) averts 26 infant infections and actually costs *less* than baseline ($85K savings). This is the easiest policy argument to make — the program gets better outcomes and saves money. In investment case language, this is a "dominant" intervention.
+
+**Scenarios 2 and 3 are highly cost-effective.** Adding support groups (at 50% and 80% coverage) alongside 60% infant prophylaxis scale-up costs only $328 and $270 per infection averted respectively. These are extremely low ICERs by any global health threshold — far below Zambia's GDP per capita (~$1,200). The investment case here is very strong.
+
+**Scenarios 4 and 5 remain cost-effective but the marginal returns start falling.** Scaling infant prophylaxis to 90% and adding LTFU tracing costs $3,721–$4,890 per infection averted. Still well below typical willingness-to-pay thresholds, and these scenarios collectively avert ~1,480 infant infections — a 40% VT reduction.
+
+**Scenarios 6 and 7 introduce ANC retesting and show a step-change in cost.** The jump from Scenario 5 ($20M total) to Scenario 6 ($23.4M) reflects the large population receiving additional HIV tests. The ICER of ~$14,500–$14,700 per infection averted is higher but still defensible as cost-effective in many frameworks.
+
+**Scenario 8 is where the cost escalates sharply.** Adding 10% PrEP coverage more than doubles total cost from ~$24M to ~$44M, and the ICER rises to $55,376 per infection averted. PrEP *does* add 354 maternal infections averted (which appear here for the first time), but the combined ICER reflects that preventing maternal HIV is significantly more expensive per event in this model. Whether this crosses a decision-maker's threshold depends on Zambia's specific willingness-to-pay and how maternal infections are valued.
+
+**Scenario 9 at $346,501 per infection averted is the hardest to justify.** Adding POC VL testing and full-coverage LTFU and ANC retesting pushes the ICER far beyond any standard threshold. From an investment case perspective, this package may be aspirational or useful as a ceiling scenario, but is not the recommended investment priority.
+
+---
+
+## The core investment case recommendation
+
+The data support a clear **"best value" package** of Scenarios 1–5, which together avert ~1,480 infant infections at a maximum ICER of ~$4,900 and a total programme cost of ~$20M. This represents a 40% reduction in vertical transmission at very modest incremental cost over baseline. Scenarios 6 and 7 extend this to 47% VT reduction for an additional ~$4M, which may be worthwhile depending on the program's ambition. Scenarios 8 and 9 are harder to recommend as priority investments given the cost escalation.
