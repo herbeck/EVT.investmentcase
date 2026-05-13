@@ -559,6 +559,30 @@ make_country_tab <- function(country_name) {
                      style="font-weight:700; font-size:14px;")
       )
     ),
+    # Row 1b: Cost input parameters
+    fluidRow(
+      box(width=12, title=paste(country_name, "— Cost input parameters (USD)"),
+          status="primary", solidHeader=FALSE,
+        fluidRow(
+          column(3,
+            numericInput(paste0(id,"_cost_inf_prophylaxis"), "Infant prophylaxis (per HEI)", d$cost_inf_prophylaxis, min=0, step=0.01),
+            numericInput(paste0(id,"_cost_anc_test"),        "ANC HIV test (per test)",       d$cost_anc_test,        min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_prep"),            "PrEP (per person per month)",   d$cost_prep,            min=0, step=0.01),
+            numericInput(paste0(id,"_cost_support_groups"),  "Support group (per person per month)", d$cost_support_groups, min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_dtg_monthly"),     "TLD/DTG ART (per person per month)",   d$cost_dtg_monthly,    min=0, step=0.01),
+            numericInput(paste0(id,"_cost_efz_monthly"),     "EFZ incremental cost (per person per month)", d$cost_efz_monthly, min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_ltfu_min"),        "LTFU tracing (per person traced)", d$cost_ltfu_min,       min=0, step=0.01),
+            numericInput(paste0(id,"_cost_poc_vl"),          "POC viral load test (per test)",   d$cost_poc_vl,         min=0, step=0.01)
+          )
+        )
+      )
+    ),
     # Row 2: Scenario comparison table (styled like Table 3)
     fluidRow(
       box(width=12, title="Scenario comparison table", status="success", solidHeader=TRUE,
@@ -754,6 +778,7 @@ ui <- dashboardPage(
       menuItem("About", tabName="about"),
       menuItem("Original publication tables", tabName="paper_tables"),
       menuItem("Model description", tabName="model_description"),
+      menuItem("Country parameters", tabName="country_params"),
       menuItem("Zambia", tabName="tab_Zambia"),
       menuItem("Kenya", tabName="tab_Kenya"),
       menuItem("Mozambique", tabName="tab_Mozambique"),
@@ -957,6 +982,47 @@ ui <- dashboardPage(
           )
         )
       ),
+      tabItem("country_params",
+        box(width=12, title="Country parameters — sources and default values",
+            status="primary", solidHeader=TRUE,
+          p("Default epidemiological and cost parameters for each country are drawn from the sources listed below.
+             ", tags$b("All parameters are editable within each country tab."), "
+             Non-Zambia cost parameters are indicative estimates
+             and should be replaced with country-specific data before use in policy decisions."),
+          tabBox(width=12,
+
+            # ── Epidemiological parameters tab ──────────────────────────────
+            tabPanel("Epidemiological parameters",
+              p(style="margin-top:8px; color:#555;",
+                "Sources: ",
+                tags$a("UNAIDS AIDSinfo 2024", href="https://aidsinfo.unaids.org/", target="_blank"), " — ",
+                tags$a("PHIA Project (ZAMPHIA 2021, KENPHIA 2018, MPHIA 2020–21, ZIMPHIA 2020)", href="https://phia.icap.columbia.edu/", target="_blank"), " — ",
+                tags$a("INSIDA 2021 (Mozambique)", href="https://www.misau.gov.mz/", target="_blank"), " — ",
+                tags$a("HSRC South Africa 2022", href="https://www.hsrc.ac.za/", target="_blank"), " — ",
+                tags$a("UN World Population Prospects 2024", href="https://population.un.org/wpp/", target="_blank"), " — ",
+                tags$a("World Bank Open Data", href="https://data.worldbank.org/", target="_blank")
+              ),
+              DTOutput("country_epi_table")
+            ),
+
+            # ── Cost parameters tab ─────────────────────────────────────────
+            tabPanel("Cost parameters",
+              p(style="margin-top:8px; color:#555;",
+                "Zambia cost parameters are from the original Chevalier et al. (2024) workbook costing analysis. ",
+                "Non-Zambia values are indicative estimates informed by regional procurement benchmarks and should be replaced with country-specific data. ",
+                "Sources: ",
+                tags$a("Chevalier et al., Lancet Global Health 2024 (Zambia)", href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext", target="_blank"), " — ",
+                tags$a("PEPFAR/GHSD ARV price lists", href="https://www.prepwatch.org/resources/prep-procurement/", target="_blank"), " — ",
+                tags$a("WHO-CHOICE unit costs", href="https://www.who.int/teams/health-economics/cost-effectiveness", target="_blank"), " — ",
+                tags$a("Global Fund price reporting", href="https://www.theglobalfund.org/en/sourcing-management/price-reporting/", target="_blank")
+              ),
+              p(style="color:#c0392b; font-size:13px;",
+                tags$b("Note: "), "The incremental EFZ cost (cost_efz_monthly = $0.28) is the additional cost above the TLD base rate for patients still on EFZ, applied uniformly as a global commodity differential."),
+              DTOutput("country_cost_table")
+            )
+          )
+        )
+      ),
       make_country_tab("Zambia"),
       make_country_tab("Kenya"),
       make_country_tab("Mozambique"),
@@ -1016,17 +1082,93 @@ server <- function(input, output, session) {
   output$model_intervention_table <- renderDT(datatable(model_intervention_description, options=list(dom='t', paging=FALSE, searching=FALSE, info=FALSE), rownames=FALSE))
   output$model_output_table <- renderDT(datatable(model_output_description, options=list(dom='t', paging=FALSE, searching=FALSE, info=FALSE), rownames=FALSE))
 
+  # Country parameter tables for the "Country parameters" section
+  output$country_epi_table <- renderDT({
+    epi_df <- data.frame(
+      Country            = names(country_defaults),
+      Pregnant_pop       = sapply(country_defaults, `[[`, "pregnant_pop"),
+      HIV_prev_15_49     = sapply(country_defaults, `[[`, "hiv_prev"),
+      Pct_diagnosed      = sapply(country_defaults, `[[`, "pct_diagnosed"),
+      Pct_on_ART         = sapply(country_defaults, `[[`, "pct_art"),
+      Pct_virally_supp   = sapply(country_defaults, `[[`, "pct_virally_supp"),
+      Pct_TLD            = sapply(country_defaults, `[[`, "pct_dtg"),
+      Pct_inf_prophylaxis= sapply(country_defaults, `[[`, "pct_inf_prophylaxis"),
+      HIV_incidence_annual = sapply(country_defaults, `[[`, "hiv_incidence_annual"),
+      Source = c(
+        "ZAMPHIA 2021; Chevalier et al. 2024",
+        "KENPHIA 2018; UNAIDS 2024",
+        "INSIDA 2021; UNAIDS 2024",
+        "MPHIA 2020–21; UNAIDS 2024",
+        "ZIMPHIA 2020; UNAIDS 2024",
+        "HSRC 2022; UNAIDS 2024"
+      ),
+      stringsAsFactors = FALSE
+    )
+    datatable(epi_df,
+      colnames = c("Country","Annual pregnant pop","HIV prev (15–49)","% diagnosed","% on ART",
+                   "% virally suppressed","% on TLD","Baseline IP coverage","Annual HIV incidence","Source"),
+      options  = list(dom='t', paging=FALSE, searching=FALSE, info=FALSE, scrollX=TRUE),
+      rownames = FALSE
+    ) %>%
+      formatPercentage(c("HIV_prev_15_49","Pct_diagnosed","Pct_on_ART","Pct_virally_supp",
+                         "Pct_TLD","Pct_inf_prophylaxis","HIV_incidence_annual"), digits=1)
+  })
+
+  output$country_cost_table <- renderDT({
+    cost_df <- data.frame(
+      Country              = names(country_defaults),
+      IP_per_HEI           = sapply(country_defaults, `[[`, "cost_inf_prophylaxis"),
+      ANC_test             = sapply(country_defaults, `[[`, "cost_anc_test"),
+      PrEP_per_person_month= sapply(country_defaults, `[[`, "cost_prep"),
+      Support_groups       = sapply(country_defaults, `[[`, "cost_support_groups"),
+      TLD_per_person_month = sapply(country_defaults, `[[`, "cost_dtg_monthly"),
+      EFZ_incremental      = sapply(country_defaults, `[[`, "cost_efz_monthly"),
+      LTFU_per_person      = sapply(country_defaults, `[[`, "cost_ltfu_min"),
+      POC_VL_per_test      = sapply(country_defaults, `[[`, "cost_poc_vl"),
+      Source = c(
+        "Chevalier et al. 2024 workbook (validated)",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE"
+      ),
+      stringsAsFactors = FALSE
+    )
+    datatable(cost_df,
+      colnames = c("Country","IP ($/HEI)","ANC test ($/test)","PrEP ($/person/month)",
+                   "Support groups ($/person/month)","TLD ART ($/person/month)",
+                   "EFZ incremental ($/person/month)","LTFU tracing ($/person traced)",
+                   "POC VL ($/test)","Source"),
+      options  = list(dom='t', paging=FALSE, searching=FALSE, info=FALSE, scrollX=TRUE),
+      rownames = FALSE
+    ) %>%
+      formatCurrency(c("IP_per_HEI","ANC_test","PrEP_per_person_month","Support_groups",
+                       "TLD_per_person_month","EFZ_incremental","LTFU_per_person","POC_VL_per_test"),
+                     "$", digits=2)
+  })
+
   gather_params <- function(cn) {
     id <- gsub(" ", "_", cn)
     d <- country_defaults[[cn]]
-    d$pregnant_pop <- safe_num(input[[paste0(id,"_pregnant_pop")]], d$pregnant_pop)
-    d$hiv_prev <- safe_num(input[[paste0(id,"_hiv_prev")]], d$hiv_prev)
-    d$pct_diagnosed <- safe_num(input[[paste0(id,"_pct_diagnosed")]], d$pct_diagnosed)
-    d$pct_art <- safe_num(input[[paste0(id,"_pct_art")]], d$pct_art)
-    d$pct_virally_supp <- safe_num(input[[paste0(id,"_pct_virally_supp")]], d$pct_virally_supp)
-    d$pct_dtg <- safe_num(input[[paste0(id,"_pct_dtg")]], d$pct_dtg)
-    d$pct_inf_prophylaxis <- safe_num(input[[paste0(id,"_pct_inf_prophylaxis")]], d$pct_inf_prophylaxis)
+    # Epidemiological parameters
+    d$pregnant_pop         <- safe_num(input[[paste0(id,"_pregnant_pop")]],         d$pregnant_pop)
+    d$hiv_prev             <- safe_num(input[[paste0(id,"_hiv_prev")]],             d$hiv_prev)
+    d$pct_diagnosed        <- safe_num(input[[paste0(id,"_pct_diagnosed")]],        d$pct_diagnosed)
+    d$pct_art              <- safe_num(input[[paste0(id,"_pct_art")]],              d$pct_art)
+    d$pct_virally_supp     <- safe_num(input[[paste0(id,"_pct_virally_supp")]],     d$pct_virally_supp)
+    d$pct_dtg              <- safe_num(input[[paste0(id,"_pct_dtg")]],              d$pct_dtg)
+    d$pct_inf_prophylaxis  <- safe_num(input[[paste0(id,"_pct_inf_prophylaxis")]],  d$pct_inf_prophylaxis)
     d$hiv_incidence_annual <- safe_num(input[[paste0(id,"_hiv_incidence_annual")]], d$hiv_incidence_annual)
+    # Cost parameters
+    d$cost_inf_prophylaxis <- safe_num(input[[paste0(id,"_cost_inf_prophylaxis")]], d$cost_inf_prophylaxis)
+    d$cost_anc_test        <- safe_num(input[[paste0(id,"_cost_anc_test")]],        d$cost_anc_test)
+    d$cost_prep            <- safe_num(input[[paste0(id,"_cost_prep")]],            d$cost_prep)
+    d$cost_support_groups  <- safe_num(input[[paste0(id,"_cost_support_groups")]],  d$cost_support_groups)
+    d$cost_dtg_monthly     <- safe_num(input[[paste0(id,"_cost_dtg_monthly")]],     d$cost_dtg_monthly)
+    d$cost_efz_monthly     <- safe_num(input[[paste0(id,"_cost_efz_monthly")]],     d$cost_efz_monthly)
+    d$cost_ltfu_min        <- safe_num(input[[paste0(id,"_cost_ltfu_min")]],        d$cost_ltfu_min)
+    d$cost_poc_vl          <- safe_num(input[[paste0(id,"_cost_poc_vl")]],          d$cost_poc_vl)
     d
   }
 

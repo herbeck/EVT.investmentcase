@@ -117,17 +117,7 @@ country_defaults <- list(
 shared_params <- list(
   mtct_hiv_inf=0.200, mtct_diagnosed=0.200, mtct_art=0.037, mtct_virally_supp=0.0025,
   mtct_bf_hiv_inf=0.01250, mtct_bf_diagnosed=0.01250, mtct_bf_art=0.001542, mtct_bf_virally_supp=0.0001042,
-  backflow_dtg=0.007917,
-  # Intervention effectiveness parameters (from Excel Intervention Multipliers sheet)
-  # Each represents the proportional effect on the relevant outcome at 100% coverage.
-  eff_ip        = 0.50,   # IP: 50% reduction in MTCT for diagnosed/ART/VS at full coverage
-  eff_anc1      = 0.81,   # ANC option 1: multiplier on HIV-inf MTCT at full coverage (19% reduction)
-  eff_anc2      = 0.79,   # ANC option 2: multiplier on HIV-inf MTCT at full coverage (21% reduction)
-  eff_anc3      = 0.78,   # ANC option 3: multiplier on HIV-inf MTCT at full coverage (22% reduction)
-  eff_prep      = 0.35,   # PrEP: residual HIV acquisition fraction (65% effectiveness)
-  eff_support   = 0.135,  # Support groups: residual MTCT fraction for diag/ART women (86.5% reduction)
-  eff_ltfu      = 0.71,   # LTFU tracing: residual LTFU rate (29% reduction in LTFU)
-  eff_poc       = 0.10    # POC VL: proportional increase in viral suppression transition rate (10%)
+  backflow_dtg=0.007917
 )
 
 
@@ -197,19 +187,19 @@ run_model <- function(params, n_months = 12,
     isTRUE(int_prep > 0) || isTRUE(int_support > 0) ||
     isTRUE(int_ltfu > 0) || isTRUE(int_poc_vl > 0)
 
-  ip_adj <- 1 - int_infant_prop * (1 - p$eff_ip)
-  anc1_mult <- if (isTRUE(int_anc1 > 0)) 1 - int_anc1 * (1 - p$eff_anc1) else 1
-  anc2_mult <- if (isTRUE(int_anc2 > 0)) 1 - int_anc2 * (1 - p$eff_anc2) else 1
-  anc3_mult <- if (isTRUE(int_anc3 > 0)) 1 - int_anc3 * (1 - p$eff_anc3) else 1
+  ip_adj <- 1 - int_infant_prop * (1 - 0.50)
+  anc1_mult <- if (isTRUE(int_anc1 > 0)) 1 - int_anc1 * (1 - 0.81) else 1
+  anc2_mult <- if (isTRUE(int_anc2 > 0)) 1 - int_anc2 * (1 - 0.79) else 1
+  anc3_mult <- if (isTRUE(int_anc3 > 0)) 1 - int_anc3 * (1 - 0.78) else 1
   mtct_hiv_inf_mult <- min(anc1_mult, anc2_mult, anc3_mult)
-  transition_hiv_mult <- if (isTRUE(int_prep > 0)) 1 - int_prep * (1 - p$eff_prep) else 1
-  support_mtct_mult <- if (isTRUE(int_support > 0)) 1 - int_support * (1 - p$eff_support) else 1
+  transition_hiv_mult <- if (isTRUE(int_prep > 0)) 1 - int_prep * (1 - 0.35) else 1
+  support_mtct_mult <- if (isTRUE(int_support > 0)) 1 - int_support * (1 - 0.135) else 1
   mtct_diag_mult <- ip_adj * support_mtct_mult
   mtct_art_mult <- ip_adj * support_mtct_mult
   mtct_vs_mult <- ip_adj
-  ltfu_mult <- if (isTRUE(int_ltfu > 0)) 1 - int_ltfu * (1 - p$eff_ltfu) else 1
-  art_preg_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * p$eff_poc else 1
-  art_bf_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * p$eff_poc else 1
+  ltfu_mult <- if (isTRUE(int_ltfu > 0)) 1 - int_ltfu * (1 - 0.71) else 1
+  art_preg_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
+  art_bf_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
   diag_preg_mult <- 1
   diag_deliv_mult <- 1
   diag_bf_mult <- 1
@@ -770,7 +760,6 @@ ui <- dashboardPage(
       menuItem("About", tabName="about"),
       menuItem("Original publication tables", tabName="paper_tables"),
       menuItem("Model description", tabName="model_description"),
-      menuItem("Intervention effectiveness", tabName="effectiveness"),
       menuItem("Country parameters", tabName="country_params"),
       menuItem("Zambia", tabName="tab_Zambia"),
       menuItem("Kenya", tabName="tab_Kenya"),
@@ -805,8 +794,8 @@ ui <- dashboardPage(
             tags$a("Chevalier et al., Lancet Global Health 2024",
                    href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext",
                    target="_blank"),
-            ". The app translates the workbook model logic into R so model outputs can be compared with the Lancet paper tables."),
-          p("This is a 12-month deterministic cohort Markov model that tracks proportions of pregnant and breastfeeding women (PBFW) flowing between HIV care states, parameterized to Zambia. The model incorporates seven interventions to prevent vertically transmitted, or mother-to-child transmission (MTCT), HIV infections:"),
+            ". The app translates the workbook model logic into R so model outputs can be compared with the tables and figures in the original publication."),
+          p("This is a 12-month deterministic cohort Markov model that tracks proportions of pregnant and breastfeeding women (PBFW) flowing between HIV care states, originally parameterized to Zambia. The model incorporates six interventions to prevent vertically transmitted HIV infections (mother-to-child transmission (MTCT)):"),
           tags$ul(
             tags$li(tags$b("Infant prophylaxis: "), "administration of antiretroviral prophylaxis to HIV-exposed infants at delivery"),
             tags$li(tags$b("HIV retesting: "), "additional HIV testing at three optional time points — during late antenatal care (ANC), at delivery, and postpartum"),
@@ -815,8 +804,8 @@ ui <- dashboardPage(
             tags$li(tags$b("Loss-to-follow-up (LTFU) contact tracing: "), "active outreach to re-engage PBFW who have disengaged from HIV care"),
             tags$li(tags$b("Point-of-care viral load (POC VL) testing: "), "rapid on-site viral load testing to support timely clinical decision-making")
           ),
-          p("TLD (dolutegravir-based) ART is assumed universal for all HIV-infected PBFW. At baseline, 50% of exposed infants received prophylaxis and pregnant women received one HIV test during pregnancy. Outcomes included in this model are incident HIV infections among mothers and infants with associated intervention costs."),
-          p("Country parameters for Zambia, Kenya, Mozambique, Malawi, Zimbabwe, and South Africa are editable starter values and should be replaced with country-specific Spectrum/AIM, DHS, PHIA, PEPFAR/MER, or Thembisa inputs before decision use.")
+          p("TLD (dolutegravir-based) ART is assumed universal for all HIV-infected PBFW. In the baseline scenario, 50% of exposed infants received prophylaxis and pregnant women received one HIV test during pregnancy. Outcomes included in this model are incident HIV infections among mothers and infants with associated intervention costs."),
+          p("Country parameters for Zambia, Kenya, Mozambique, Malawi, Zimbabwe, and South Africa are editable starter values and can be replaced with country-specific Spectrum/AIM, DHS, PHIA, PEPFAR/MER, or Thembisa inputs before decision use.")
         )
       ),
       tabItem("paper_tables",
@@ -991,70 +980,13 @@ ui <- dashboardPage(
           )
         )
       ),
-      tabItem("effectiveness",
-        box(width=12, title="Intervention effectiveness parameters",
-            status="warning", solidHeader=TRUE,
-            p("The table below shows the default effectiveness value for each intervention, as sourced from the original ",
-              tags$a("Chevalier et al. (Lancet Global Health, 2024)", href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext", target="_blank"),
-              " workbook (Excel Intervention Multipliers sheet). Each value is the parameter used in the original workbook to represent the intervention's effect, drawn from published evidence as cited in Table 1 of Chevalier et al. (2024). The effect will be scaled by the coverage proportion set in each scenario."),
-          p(style="color:#c0392b; font-size:13px;",
-            tags$b("Note: "), "Changing these values will affect model outputs for all countries. Default values are from the original publication and should only be changed if you have country-specific or updated evidence."),
-          fluidRow(
-            column(6,
-              tags$h4("Infant prophylaxis", style="margin-top:6px;"),
-              sliderInput("eff_ip", "IP: proportion of MTCT retained at full coverage (lower = more effective)",
-                          min=0, max=1, value=0.50, step=0.01),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% IP coverage, diagnosed/ART/VS MTCT rates are multiplied by this factor. Default 0.50 = 50% reduction."),
-
-              tags$h4("ANC HIV retesting", style="margin-top:16px;"),
-              sliderInput("eff_anc1", "ANC option 1: residual HIV-inf MTCT fraction at full coverage",
-                          min=0, max=1, value=0.81, step=0.01),
-              sliderInput("eff_anc2", "ANC option 2: residual HIV-inf MTCT fraction at full coverage",
-                          min=0, max=1, value=0.79, step=0.01),
-              sliderInput("eff_anc3", "ANC option 3: residual HIV-inf MTCT fraction at full coverage",
-                          min=0, max=1, value=0.78, step=0.01),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% retesting coverage, undiagnosed-HIV MTCT is multiplied by this factor. Default 0.81/0.79/0.78 = 19%/21%/22% reductions."),
-
-              tags$h4("Oral PrEP", style="margin-top:16px;"),
-              sliderInput("eff_prep", "PrEP: residual HIV acquisition fraction at full coverage",
-                          min=0, max=1, value=0.35, step=0.01),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% PrEP coverage, monthly HIV acquisition among HIV-negative PBFW is multiplied by this factor. Default 0.35 = 65% effectiveness.")
-            ),
-            column(6,
-              tags$h4("Maternal peer-support groups", style="margin-top:6px;"),
-              sliderInput("eff_support", "Support groups: residual MTCT fraction for diagnosed/ART women at full coverage",
-                          min=0, max=1, value=0.135, step=0.005),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% coverage, MTCT for diagnosed and ART-not-VS women is multiplied by this factor. Default 0.135 = 86.5% reduction."),
-
-              tags$h4("LTFU contact tracing", style="margin-top:16px;"),
-              sliderInput("eff_ltfu", "LTFU tracing: residual LTFU rate fraction at full coverage",
-                          min=0, max=1, value=0.71, step=0.01),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% tracing coverage, the monthly LTFU rate is multiplied by this factor. Default 0.71 = 29% reduction in LTFU."),
-
-              tags$h4("Point-of-care viral load (POC VL)", style="margin-top:16px;"),
-              sliderInput("eff_poc", "POC VL: proportional increase in viral suppression transition rate at full coverage",
-                          min=0, max=0.5, value=0.10, step=0.01),
-              tags$p(style="color:#555; font-size:12px;",
-                "Interpretation: at 100% POC VL coverage, the monthly ART-to-VS transition rate is multiplied by (1 + this value). Default 0.10 = 10% increase in suppression rate."),
-
-              tags$br(),
-              actionButton("eff_reset", "Reset all to defaults", class="btn-default btn-sm")
-            )
-          )
-        )
-      ),
       tabItem("country_params",
         box(width=12, title="Country parameters — sources and default values",
             status="primary", solidHeader=TRUE,
-          p(tags$b("Default"), " epidemiological and cost parameters for each country are drawn from the sources listed below.
+          p("Default epidemiological and cost parameters for each country are drawn from the sources listed below.
              ", tags$b("All parameters are editable within each country tab."), "
              Non-Zambia cost parameters are indicative estimates
-             and should be replaced with country-specific data before use in policy discussions"),
+             and should be replaced with country-specific data before use in policy decisions."),
           tabBox(width=12,
 
             # ── Epidemiological parameters tab ──────────────────────────────
@@ -1212,18 +1144,6 @@ server <- function(input, output, session) {
                      "$", digits=2)
   })
 
-  # Reset effectiveness parameters to defaults
-  observeEvent(input$eff_reset, {
-    updateSliderInput(session, "eff_ip",      value = shared_params$eff_ip)
-    updateSliderInput(session, "eff_anc1",    value = shared_params$eff_anc1)
-    updateSliderInput(session, "eff_anc2",    value = shared_params$eff_anc2)
-    updateSliderInput(session, "eff_anc3",    value = shared_params$eff_anc3)
-    updateSliderInput(session, "eff_prep",    value = shared_params$eff_prep)
-    updateSliderInput(session, "eff_support", value = shared_params$eff_support)
-    updateSliderInput(session, "eff_ltfu",    value = shared_params$eff_ltfu)
-    updateSliderInput(session, "eff_poc",     value = shared_params$eff_poc)
-  })
-
   gather_params <- function(cn) {
     id <- gsub(" ", "_", cn)
     d <- country_defaults[[cn]]
@@ -1243,15 +1163,6 @@ server <- function(input, output, session) {
     d$cost_dtg_monthly     <- safe_num(input[[paste0(id,"_cost_dtg_monthly")]],     d$cost_dtg_monthly)
     d$cost_ltfu_min        <- safe_num(input[[paste0(id,"_cost_ltfu_min")]],        d$cost_ltfu_min)
     d$cost_poc_vl          <- safe_num(input[[paste0(id,"_cost_poc_vl")]],          d$cost_poc_vl)
-    # Effectiveness parameters (global inputs from the Intervention effectiveness tab)
-    d$eff_ip      <- safe_num(input$eff_ip,      shared_params$eff_ip)
-    d$eff_anc1    <- safe_num(input$eff_anc1,    shared_params$eff_anc1)
-    d$eff_anc2    <- safe_num(input$eff_anc2,    shared_params$eff_anc2)
-    d$eff_anc3    <- safe_num(input$eff_anc3,    shared_params$eff_anc3)
-    d$eff_prep    <- safe_num(input$eff_prep,    shared_params$eff_prep)
-    d$eff_support <- safe_num(input$eff_support, shared_params$eff_support)
-    d$eff_ltfu    <- safe_num(input$eff_ltfu,    shared_params$eff_ltfu)
-    d$eff_poc     <- safe_num(input$eff_poc,     shared_params$eff_poc)
     d
   }
 

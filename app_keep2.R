@@ -104,23 +104,20 @@ paper_table3 <- data.frame(
 # Zambia values mirror the paper where available; other countries are placeholders.
 # ============================================================
 country_defaults <- list(
-  # cost_efz_monthly is the INCREMENTAL cost of EFZ above the DTG base regimen cost
-  # (i.e. the additional cost per person-month for patients on EFZ rather than TLD).
-  # Source: Excel Costing Parameters sheet — "additional incremental cost of EFZ for one-month ART" = $0.28.
-  # All patients on ART are charged cost_dtg_monthly; EFZ patients are charged cost_dtg_monthly + cost_efz_monthly.
-  # The $0.28 figure is a global commodity drug-cost differential and is applied uniformly across countries.
-  Zambia = list(childbearing_pop=4446807, pregnant_pop=369085, hiv_prev=0.138, pct_diagnosed=0.94, pct_art=0.93, pct_virally_supp=0.90, pct_dtg=0.80, pct_inf_prophylaxis=0.50, hiv_incidence_annual=0.00538, birth_rate_monthly=0.0029, trans_diagnosed=0.08024675, trans_art=0.09449375, trans_virally_supp=0.07678550, trans_ltfu=0.006754186, cost_inf_prophylaxis=12.86, cost_anc_test=2.99, cost_prep=16.89, cost_support_groups=1.39, cost_dtg_monthly=10.39, cost_efz_monthly=0.28, cost_ltfu_min=4.25, cost_poc_vl=8.03),
-  Kenya = list(childbearing_pop=12800000, pregnant_pop=1450000, hiv_prev=0.054, pct_diagnosed=0.96, pct_art=0.95, pct_virally_supp=0.93, pct_dtg=0.85, pct_inf_prophylaxis=0.60, hiv_incidence_annual=0.00210, birth_rate_monthly=0.0030, trans_diagnosed=0.065, trans_art=0.085, trans_virally_supp=0.070, trans_ltfu=0.0065, cost_inf_prophylaxis=11.50, cost_anc_test=2.50, cost_prep=14.00, cost_support_groups=1.20, cost_dtg_monthly=9.50, cost_efz_monthly=0.28, cost_ltfu_min=4.00, cost_poc_vl=7.50),
-  Mozambique = list(childbearing_pop=8200000, pregnant_pop=890000, hiv_prev=0.125, pct_diagnosed=0.89, pct_art=0.85, pct_virally_supp=0.87, pct_dtg=0.75, pct_inf_prophylaxis=0.45, hiv_incidence_annual=0.00720, birth_rate_monthly=0.0038, trans_diagnosed=0.070, trans_art=0.080, trans_virally_supp=0.065, trans_ltfu=0.0080, cost_inf_prophylaxis=10.00, cost_anc_test=2.20, cost_prep=13.00, cost_support_groups=1.00, cost_dtg_monthly=8.50, cost_efz_monthly=0.28, cost_ltfu_min=3.50, cost_poc_vl=7.00),
-  Malawi = list(childbearing_pop=5400000, pregnant_pop=580000, hiv_prev=0.081, pct_diagnosed=0.96, pct_art=0.96, pct_virally_supp=0.94, pct_dtg=0.90, pct_inf_prophylaxis=0.55, hiv_incidence_annual=0.00340, birth_rate_monthly=0.0034, trans_diagnosed=0.075, trans_art=0.090, trans_virally_supp=0.075, trans_ltfu=0.0060, cost_inf_prophylaxis=9.50, cost_anc_test=2.00, cost_prep=12.00, cost_support_groups=0.95, cost_dtg_monthly=8.00, cost_efz_monthly=0.28, cost_ltfu_min=3.20, cost_poc_vl=6.50),
-  Zimbabwe = list(childbearing_pop=4100000, pregnant_pop=440000, hiv_prev=0.140, pct_diagnosed=0.94, pct_art=0.93, pct_virally_supp=0.91, pct_dtg=0.82, pct_inf_prophylaxis=0.52, hiv_incidence_annual=0.00520, birth_rate_monthly=0.0028, trans_diagnosed=0.078, trans_art=0.092, trans_virally_supp=0.074, trans_ltfu=0.0068, cost_inf_prophylaxis=11.00, cost_anc_test=2.40, cost_prep=14.50, cost_support_groups=1.15, cost_dtg_monthly=9.20, cost_efz_monthly=0.28, cost_ltfu_min=3.80, cost_poc_vl=7.20),
-  `South Africa` = list(childbearing_pop=14500000, pregnant_pop=1150000, hiv_prev=0.204, pct_diagnosed=0.94, pct_art=0.91, pct_virally_supp=0.93, pct_dtg=0.78, pct_inf_prophylaxis=0.55, hiv_incidence_annual=0.00640, birth_rate_monthly=0.0021, trans_diagnosed=0.076, trans_art=0.091, trans_virally_supp=0.073, trans_ltfu=0.0062, cost_inf_prophylaxis=14.00, cost_anc_test=3.50, cost_prep=20.00, cost_support_groups=1.80, cost_dtg_monthly=12.00, cost_efz_monthly=0.28, cost_ltfu_min=5.50, cost_poc_vl=9.50)
+  # All countries assume 100% TLD (DTG-based) first-line ART for HIV-infected PBFW.
+  # cost_dtg_monthly is the per-person-per-month ART cost (TLD regimen).
+  Zambia = list(childbearing_pop=4446807, pregnant_pop=369085, hiv_prev=0.138, pct_diagnosed=0.94, pct_art=0.93, pct_virally_supp=0.90, pct_inf_prophylaxis=0.50, hiv_incidence_annual=0.00538, birth_rate_monthly=0.0029, trans_diagnosed=0.08024675, trans_art=0.09449375, trans_virally_supp=0.07678550, trans_ltfu=0.006754186, cost_inf_prophylaxis=12.86, cost_anc_test=2.99, cost_prep=16.89, cost_support_groups=1.39, cost_dtg_monthly=10.39, cost_ltfu_min=4.25, cost_poc_vl=8.03),
+  Kenya = list(childbearing_pop=12800000, pregnant_pop=1450000, hiv_prev=0.054, pct_diagnosed=0.96, pct_art=0.95, pct_virally_supp=0.93, pct_inf_prophylaxis=0.60, hiv_incidence_annual=0.00210, birth_rate_monthly=0.0030, trans_diagnosed=0.065, trans_art=0.085, trans_virally_supp=0.070, trans_ltfu=0.0065, cost_inf_prophylaxis=11.50, cost_anc_test=2.50, cost_prep=14.00, cost_support_groups=1.20, cost_dtg_monthly=9.50, cost_ltfu_min=4.00, cost_poc_vl=7.50),
+  Mozambique = list(childbearing_pop=8200000, pregnant_pop=890000, hiv_prev=0.125, pct_diagnosed=0.89, pct_art=0.85, pct_virally_supp=0.87, pct_inf_prophylaxis=0.45, hiv_incidence_annual=0.00720, birth_rate_monthly=0.0038, trans_diagnosed=0.070, trans_art=0.080, trans_virally_supp=0.065, trans_ltfu=0.0080, cost_inf_prophylaxis=10.00, cost_anc_test=2.20, cost_prep=13.00, cost_support_groups=1.00, cost_dtg_monthly=8.50, cost_ltfu_min=3.50, cost_poc_vl=7.00),
+  Malawi = list(childbearing_pop=5400000, pregnant_pop=580000, hiv_prev=0.081, pct_diagnosed=0.96, pct_art=0.96, pct_virally_supp=0.94, pct_inf_prophylaxis=0.55, hiv_incidence_annual=0.00340, birth_rate_monthly=0.0034, trans_diagnosed=0.075, trans_art=0.090, trans_virally_supp=0.075, trans_ltfu=0.0060, cost_inf_prophylaxis=9.50, cost_anc_test=2.00, cost_prep=12.00, cost_support_groups=0.95, cost_dtg_monthly=8.00, cost_ltfu_min=3.20, cost_poc_vl=6.50),
+  Zimbabwe = list(childbearing_pop=4100000, pregnant_pop=440000, hiv_prev=0.140, pct_diagnosed=0.94, pct_art=0.93, pct_virally_supp=0.91, pct_inf_prophylaxis=0.52, hiv_incidence_annual=0.00520, birth_rate_monthly=0.0028, trans_diagnosed=0.078, trans_art=0.092, trans_virally_supp=0.074, trans_ltfu=0.0068, cost_inf_prophylaxis=11.00, cost_anc_test=2.40, cost_prep=14.50, cost_support_groups=1.15, cost_dtg_monthly=9.20, cost_ltfu_min=3.80, cost_poc_vl=7.20),
+  `South Africa` = list(childbearing_pop=14500000, pregnant_pop=1150000, hiv_prev=0.204, pct_diagnosed=0.94, pct_art=0.91, pct_virally_supp=0.93, pct_inf_prophylaxis=0.55, hiv_incidence_annual=0.00640, birth_rate_monthly=0.0021, trans_diagnosed=0.076, trans_art=0.091, trans_virally_supp=0.073, trans_ltfu=0.0062, cost_inf_prophylaxis=14.00, cost_anc_test=3.50, cost_prep=20.00, cost_support_groups=1.80, cost_dtg_monthly=12.00, cost_ltfu_min=5.50, cost_poc_vl=9.50)
 )
 
 shared_params <- list(
   mtct_hiv_inf=0.200, mtct_diagnosed=0.200, mtct_art=0.037, mtct_virally_supp=0.0025,
   mtct_bf_hiv_inf=0.01250, mtct_bf_diagnosed=0.01250, mtct_bf_art=0.001542, mtct_bf_virally_supp=0.0001042,
-  backflow_dtg=0.007917, backflow_efz=0.013333
+  backflow_dtg=0.007917
 )
 
 
@@ -157,7 +154,7 @@ safe_param_list <- function(params, defaults = list()) {
 # ============================================================
 run_model <- function(params, n_months = 12,
                       int_infant_prop, int_anc1, int_anc2, int_anc3,
-                      int_prep, int_support, int_dtg_prop, int_efz_prop,
+                      int_prep, int_support,
                       int_ltfu, int_poc_vl) {
   p <- safe_param_list(params, country_defaults$Zambia)
   p <- safe_param_list(shared_params, p)
@@ -168,11 +165,14 @@ run_model <- function(params, n_months = 12,
   int_anc3 <- safe_num(int_anc3, 0)
   int_prep <- safe_num(int_prep, 0)
   int_support <- safe_num(int_support, 0)
-  int_dtg_prop <- safe_num(int_dtg_prop, p$pct_dtg)
-  int_efz_prop <- safe_num(int_efz_prop, 1 - int_dtg_prop)
   int_ltfu <- safe_num(int_ltfu, 0)
   int_poc_vl <- safe_num(int_poc_vl, 0)
   n_months <- max(1, as.integer(safe_num(n_months, 12)))
+
+  # TLD (DTG) is assumed universal (100%) — backflow and viral suppression
+  # multiplier are fixed constants derived from the DTG-specific parameters.
+  backflow_fixed <- p$backflow_dtg          # = 0.007917 (DTG only, no EFZ mix)
+  vs_mult_fixed  <- 1.64                    # = 1 + 1.0 * 0.64 (100% TLD effect)
 
   population <- p$pregnant_pop * 3
   dist_preg <- p$pregnant_pop / population
@@ -182,12 +182,9 @@ run_model <- function(params, n_months = 12,
   transition_pregnancy <- p$birth_rate_monthly
   transition_hiv <- p$hiv_incidence_annual / 12
 
-  # Excel-style intervention multipliers. These correspond to the final multiplier
-  # cells in the Intervention Model sheet.
   intervention_on <- isTRUE(int_infant_prop > p$pct_inf_prophylaxis) ||
     isTRUE(int_anc1 > 0) || isTRUE(int_anc2 > 0) || isTRUE(int_anc3 > 0) ||
     isTRUE(int_prep > 0) || isTRUE(int_support > 0) ||
-    isTRUE(abs(int_dtg_prop - p$pct_dtg) > 1e-12) ||
     isTRUE(int_ltfu > 0) || isTRUE(int_poc_vl > 0)
 
   ip_adj <- 1 - int_infant_prop * (1 - 0.50)
@@ -200,8 +197,6 @@ run_model <- function(params, n_months = 12,
   mtct_diag_mult <- ip_adj * support_mtct_mult
   mtct_art_mult <- ip_adj * support_mtct_mult
   mtct_vs_mult <- ip_adj
-  vs_preg_mult <- 1 + int_dtg_prop * 0.64
-  vs_bf_mult <- 1 + int_dtg_prop * 0.64
   ltfu_mult <- if (isTRUE(int_ltfu > 0)) 1 - int_ltfu * (1 - 0.71) else 1
   art_preg_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
   art_bf_mult <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
@@ -265,59 +260,52 @@ run_model <- function(params, n_months = 12,
     dvs <- p$pct_virally_supp
 
     if (!intervention) {
-      prop_dtg <- p$pct_dtg
-      prop_efz <- 1 - p$pct_dtg
-      backflow <- prop_dtg * p$backflow_dtg + prop_efz * p$backflow_efz
-      vs_mult_base <- p$pct_dtg * 1.64 + (1 - p$pct_dtg)
       new <- list()
       new$preg <- c(
         neg = r$preg[["neg"]] + cp*dneg*transition_pregnancy - r$preg[["neg"]]*transition_hiv,
         inf = r$preg[["neg"]]*transition_hiv + r$preg[["inf"]] - r$preg[["inf"]]*p$trans_diagnosed + (cp*dhiv - cp*dhiv*ddiag)*transition_pregnancy,
         diag = r$preg[["inf"]]*p$trans_diagnosed + r$preg[["diag"]] - r$preg[["diag"]]*p$trans_art + r$preg[["art"]]*p$trans_ltfu + (cp*dhiv*ddiag - cp*dhiv*ddiag*dart)*transition_pregnancy,
-        art = r$preg[["diag"]]*p$trans_art + r$preg[["art"]] - r$preg[["art"]]*p$trans_virally_supp*vs_mult_base + r$preg[["vs"]]*backflow + r$preg[["vs"]]*p$trans_ltfu - r$preg[["art"]]*p$trans_ltfu + (cp*dhiv*ddiag*dart - cp*dhiv*ddiag*dart*dvs)*transition_pregnancy,
-        vs = r$preg[["art"]]*p$trans_virally_supp*vs_mult_base + r$preg[["vs"]] - r$preg[["vs"]]*backflow - r$preg[["vs"]]*p$trans_ltfu + cp*dhiv*ddiag*dart*dvs*transition_pregnancy
+        art = r$preg[["diag"]]*p$trans_art + r$preg[["art"]] - r$preg[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$preg[["vs"]]*backflow_fixed + r$preg[["vs"]]*p$trans_ltfu - r$preg[["art"]]*p$trans_ltfu + (cp*dhiv*ddiag*dart - cp*dhiv*ddiag*dart*dvs)*transition_pregnancy,
+        vs = r$preg[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$preg[["vs"]] - r$preg[["vs"]]*backflow_fixed - r$preg[["vs"]]*p$trans_ltfu + cp*dhiv*ddiag*dart*dvs*transition_pregnancy
       )
       new$deliv <- c(
         neg = r$deliv[["neg"]] - r$deliv[["neg"]]*transition_hiv,
         inf = r$deliv[["neg"]]*transition_hiv + r$deliv[["inf"]] - r$deliv[["inf"]]*p$trans_diagnosed,
         diag = r$deliv[["inf"]]*p$trans_diagnosed + r$deliv[["diag"]] - r$deliv[["diag"]]*p$trans_art,
-        art = r$deliv[["diag"]]*p$trans_art + r$deliv[["art"]] - r$deliv[["art"]]*p$trans_virally_supp*vs_mult_base,
-        vs = r$deliv[["art"]]*p$trans_virally_supp*vs_mult_base + r$deliv[["vs"]]
+        art = r$deliv[["diag"]]*p$trans_art + r$deliv[["art"]] - r$deliv[["art"]]*p$trans_virally_supp*vs_mult_fixed,
+        vs = r$deliv[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$deliv[["vs"]]
       )
       new$bf <- c(
         neg = r$bf[["neg"]] - r$bf[["neg"]]*transition_hiv,
         inf = r$bf[["neg"]]*transition_hiv + r$bf[["inf"]] - r$bf[["inf"]]*p$trans_diagnosed,
         diag = r$bf[["inf"]]*p$trans_diagnosed + r$bf[["diag"]] - r$bf[["diag"]]*p$trans_art + r$bf[["art"]]*p$trans_ltfu,
-        art = r$bf[["diag"]]*p$trans_art + r$bf[["art"]] + r$bf[["vs"]]*backflow + r$bf[["vs"]]*p$trans_ltfu - r$bf[["art"]]*p$trans_ltfu - r$bf[["art"]]*p$trans_virally_supp*vs_mult_base,
-        vs = r$bf[["art"]]*p$trans_virally_supp*vs_mult_base + r$bf[["vs"]] - r$bf[["vs"]]*backflow - r$bf[["vs"]]*p$trans_ltfu
+        art = r$bf[["diag"]]*p$trans_art + r$bf[["art"]] + r$bf[["vs"]]*backflow_fixed + r$bf[["vs"]]*p$trans_ltfu - r$bf[["art"]]*p$trans_ltfu - r$bf[["art"]]*p$trans_virally_supp*vs_mult_fixed,
+        vs = r$bf[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$bf[["vs"]] - r$bf[["vs"]]*backflow_fixed - r$bf[["vs"]]*p$trans_ltfu
       )
       return(new)
     }
 
-    prop_dtg <- int_dtg_prop
-    prop_efz <- int_efz_prop
-    backflow <- prop_dtg * p$backflow_dtg + prop_efz * p$backflow_efz
     new <- list()
     new$preg <- c(
       neg = r$preg[["neg"]] - r$preg[["neg"]]*transition_hiv*transition_hiv_mult + cp*dneg*transition_pregnancy,
       inf = r$preg[["neg"]]*transition_hiv*transition_hiv_mult - r$preg[["inf"]]*p$trans_diagnosed*diag_preg_mult + r$preg[["inf"]] + (cp*dhiv - cp*dhiv*ddiag)*transition_pregnancy,
       diag = r$preg[["inf"]]*p$trans_diagnosed*diag_preg_mult - r$preg[["diag"]]*p$trans_art*art_preg_mult + r$preg[["diag"]] + (cp*dhiv*ddiag - cp*dhiv*ddiag*dart)*transition_pregnancy + r$preg[["art"]]*p$trans_ltfu*ltfu_mult,
-      art = r$preg[["diag"]]*p$trans_art*art_preg_mult - r$preg[["art"]]*p$trans_virally_supp*vs_preg_mult + r$preg[["art"]] + (cp*dhiv*ddiag*dart - cp*dhiv*ddiag*dart*dvs)*transition_pregnancy + r$preg[["vs"]]*backflow - r$preg[["art"]]*p$trans_ltfu*ltfu_mult + r$preg[["vs"]]*p$trans_ltfu*ltfu_mult,
-      vs = r$preg[["art"]]*p$trans_virally_supp*vs_preg_mult + r$preg[["vs"]] + cp*dhiv*ddiag*dart*dvs*transition_pregnancy - r$preg[["vs"]]*backflow - r$preg[["vs"]]*p$trans_ltfu*ltfu_mult
+      art = r$preg[["diag"]]*p$trans_art*art_preg_mult - r$preg[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$preg[["art"]] + (cp*dhiv*ddiag*dart - cp*dhiv*ddiag*dart*dvs)*transition_pregnancy + r$preg[["vs"]]*backflow_fixed - r$preg[["art"]]*p$trans_ltfu*ltfu_mult + r$preg[["vs"]]*p$trans_ltfu*ltfu_mult,
+      vs = r$preg[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$preg[["vs"]] + cp*dhiv*ddiag*dart*dvs*transition_pregnancy - r$preg[["vs"]]*backflow_fixed - r$preg[["vs"]]*p$trans_ltfu*ltfu_mult
     )
     new$deliv <- c(
       neg = r$deliv[["neg"]] - r$deliv[["neg"]]*transition_hiv*transition_hiv_mult,
       inf = r$deliv[["neg"]]*transition_hiv*transition_hiv_mult - r$deliv[["inf"]]*p$trans_diagnosed*diag_deliv_mult + r$deliv[["inf"]],
       diag = r$deliv[["inf"]]*p$trans_diagnosed*diag_deliv_mult + r$deliv[["diag"]] - r$deliv[["diag"]]*p$trans_art,
-      art = r$deliv[["diag"]]*p$trans_art + r$deliv[["art"]] - r$deliv[["art"]]*p$trans_virally_supp*vs_preg_mult,
-      vs = r$deliv[["art"]]*p$trans_virally_supp*vs_preg_mult + r$deliv[["vs"]]
+      art = r$deliv[["diag"]]*p$trans_art + r$deliv[["art"]] - r$deliv[["art"]]*p$trans_virally_supp*vs_mult_fixed,
+      vs = r$deliv[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$deliv[["vs"]]
     )
     new$bf <- c(
       neg = r$bf[["neg"]] - r$bf[["neg"]]*transition_hiv*transition_hiv_mult,
       inf = r$bf[["neg"]]*transition_hiv*transition_hiv_mult - r$bf[["inf"]]*p$trans_diagnosed*diag_bf_mult + r$bf[["inf"]],
       diag = r$bf[["inf"]]*p$trans_diagnosed*diag_bf_mult + r$bf[["diag"]] - r$bf[["diag"]]*p$trans_art*art_bf_mult + r$bf[["art"]]*p$trans_ltfu*ltfu_mult,
-      art = r$bf[["diag"]]*p$trans_art*art_bf_mult - r$bf[["art"]]*p$trans_virally_supp*vs_bf_mult + r$bf[["art"]] + r$bf[["vs"]]*backflow + r$bf[["vs"]]*p$trans_ltfu*ltfu_mult - r$bf[["art"]]*p$trans_ltfu*ltfu_mult,
-      vs = r$bf[["art"]]*p$trans_virally_supp*vs_bf_mult + r$bf[["vs"]] - r$bf[["vs"]]*backflow - r$bf[["vs"]]*p$trans_ltfu*ltfu_mult
+      art = r$bf[["diag"]]*p$trans_art*art_bf_mult - r$bf[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$bf[["art"]] + r$bf[["vs"]]*backflow_fixed + r$bf[["vs"]]*p$trans_ltfu*ltfu_mult - r$bf[["art"]]*p$trans_ltfu*ltfu_mult,
+      vs = r$bf[["art"]]*p$trans_virally_supp*vs_mult_fixed + r$bf[["vs"]] - r$bf[["vs"]]*backflow_fixed - r$bf[["vs"]]*p$trans_ltfu*ltfu_mult
     )
     new
   }
@@ -398,14 +386,12 @@ run_model <- function(params, n_months = 12,
 
 compute_costs <- function(df, params, n_months,
                           int_infant_prop, int_anc1, int_anc2, int_anc3,
-                          int_prep, int_support, int_dtg_prop, int_efz_prop,
+                          int_prep, int_support,
                           int_ltfu, int_poc_vl) {
   p <- safe_param_list(params, country_defaults$Zambia)
   int_infant_prop <- safe_num(int_infant_prop, p$pct_inf_prophylaxis)
   int_anc1   <- safe_num(int_anc1, 0); int_anc2 <- safe_num(int_anc2, 0); int_anc3 <- safe_num(int_anc3, 0)
   int_prep   <- safe_num(int_prep, 0); int_support <- safe_num(int_support, 0)
-  int_dtg_prop <- safe_num(int_dtg_prop, p$pct_dtg)
-  int_efz_prop <- safe_num(int_efz_prop, 1 - int_dtg_prop)
   int_ltfu   <- safe_num(int_ltfu, 0); int_poc_vl <- safe_num(int_poc_vl, 0)
 
   # Use months 1..12 (drop T=0 row which is the initial state, not a cost period)
@@ -421,7 +407,7 @@ compute_costs <- function(df, params, n_months,
 
   lt    <- p$trans_ltfu
   TLD   <- p$cost_dtg_monthly
-  EFZ   <- int_efz_prop * p$cost_efz_monthly
+  EFZ   <- 0   # TLD is universal; no EFZ cost
   ANC   <- p$cost_anc_test
   SUP   <- int_support * p$cost_support_groups
   PREP  <- int_prep    * p$cost_prep
@@ -492,17 +478,18 @@ scenario_to_interventions <- function(scenario) {
   # "60% scale-up" = ip=0.60 (gives ~916 averted for Scenario 2)
   # "20% scale-up" = ip=0.60 (gives ~1424 averted for Scenario 3 — same absolute coverage)
   # "80% scale-up" = ip=0.90 (gives ~1475 averted for Scenario 4, matching theoretical maximum)
+  # TLD is assumed universal (100%) in all scenarios.
   switch(as.character(scenario),
-    "Baseline"   = list(ip=.50, anc1=0,   anc2=0,   anc3=0, prep=0,   support=0,   dtg=.80, ltfu=0,   poc=0),
-    "Scenario 1" = list(ip=.50, anc1=0,   anc2=0,   anc3=0, prep=0,   support=0,   dtg=.98, ltfu=0,   poc=0),
-    "Scenario 2" = list(ip=.60, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.50, dtg=.98, ltfu=0,   poc=0),
-    "Scenario 3" = list(ip=.60, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, dtg=.98, ltfu=0,   poc=0),
-    "Scenario 4" = list(ip=.90, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, dtg=.98, ltfu=0,   poc=0),
-    "Scenario 5" = list(ip=.90, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, dtg=.98, ltfu=.50, poc=0),
-    "Scenario 6" = list(ip=.90, anc1=.80, anc2=0,   anc3=0, prep=0,   support=.80, dtg=.98, ltfu=.80, poc=0),
-    "Scenario 7" = list(ip=.90, anc1=.90, anc2=0,   anc3=0, prep=0,   support=.80, dtg=.98, ltfu=.90, poc=0),
-    "Scenario 8" = list(ip=.90, anc1=.90, anc2=0,   anc3=0, prep=.10, support=.80, dtg=.98, ltfu=0,   poc=0),
-    "Scenario 9" = list(ip=.90, anc1=0,   anc2=.85, anc3=0, prep=.10, support=.80, dtg=.98, ltfu=.90, poc=.60)
+    "Baseline"   = list(ip=.50, anc1=0,   anc2=0,   anc3=0, prep=0,   support=0,   ltfu=0,   poc=0),
+    "Scenario 1" = list(ip=.50, anc1=0,   anc2=0,   anc3=0, prep=0,   support=0,   ltfu=0,   poc=0),
+    "Scenario 2" = list(ip=.60, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.50, ltfu=0,   poc=0),
+    "Scenario 3" = list(ip=.60, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, ltfu=0,   poc=0),
+    "Scenario 4" = list(ip=.90, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, ltfu=0,   poc=0),
+    "Scenario 5" = list(ip=.90, anc1=0,   anc2=0,   anc3=0, prep=0,   support=.80, ltfu=.50, poc=0),
+    "Scenario 6" = list(ip=.90, anc1=.80, anc2=0,   anc3=0, prep=0,   support=.80, ltfu=.80, poc=0),
+    "Scenario 7" = list(ip=.90, anc1=.90, anc2=0,   anc3=0, prep=0,   support=.80, ltfu=.90, poc=0),
+    "Scenario 8" = list(ip=.90, anc1=.90, anc2=0,   anc3=0, prep=.10, support=.80, ltfu=0,   poc=0),
+    "Scenario 9" = list(ip=.90, anc1=0,   anc2=.85, anc3=0, prep=.10, support=.80, ltfu=.90, poc=.60)
   )
 }
 
@@ -527,21 +514,19 @@ make_country_tab <- function(country_name) {
         sliderInput(paste0(id,"_pct_art"), "% diagnosed on ART", min=0.5, max=1, value=d$pct_art, step=0.01),
         sliderInput(paste0(id,"_pct_virally_supp"), "% on ART virally suppressed", min=0.5, max=1, value=d$pct_virally_supp, step=0.01),
         numericInput(paste0(id,"_hiv_incidence_annual"), "Annual HIV incidence", d$hiv_incidence_annual, min=0.0001, max=0.05, step=0.0001),
-        sliderInput(paste0(id,"_pct_dtg"), "Baseline % ART on TLD/DTG", min=0, max=1, value=d$pct_dtg, step=0.01),
         sliderInput(paste0(id,"_pct_inf_prophylaxis"), "Baseline infant prophylaxis coverage", min=0, max=1, value=d$pct_inf_prophylaxis, step=0.01)
       ),
       # Middle: Scenario intervention settings + load button
       box(width=4, title="Scenario intervention parameters", status="warning", solidHeader=TRUE,
-        selectInput(paste0(id,"_paper_scenario"), "Load Lancet frontier scenario", choices=all_scenario_names, selected="Scenario 7"),
+        selectInput(paste0(id,"_paper_scenario"), "Load Lancet frontier scenario", choices=all_scenario_names, selected="Baseline"),
         actionButton(paste0(id,"_load_scenario"), "Load selected scenario", class="btn-info btn-block"),
         hr(),
-        sliderInput(paste0(id,"_int_ip"), "Infant prophylaxis coverage", min=0, max=1, value=.90, step=.05),
-        radioButtons(paste0(id,"_int_anc_strat"), "HIV retesting strategy", choices=c("None"=0,"Option 1"=1,"Option 2"=2,"Option 3"=3), selected=1),
-        sliderInput(paste0(id,"_int_anc_prop"), "Retesting coverage", min=0, max=1, value=.90, step=.05),
+        sliderInput(paste0(id,"_int_ip"), "Infant prophylaxis coverage", min=0, max=1, value=.50, step=.05),
+        radioButtons(paste0(id,"_int_anc_strat"), "HIV retesting strategy", choices=c("None"=0,"Option 1"=1,"Option 2"=2,"Option 3"=3), selected=0),
+        sliderInput(paste0(id,"_int_anc_prop"), "Retesting coverage", min=0, max=1, value=0, step=.05),
         sliderInput(paste0(id,"_int_prep"), "PrEP coverage", min=0, max=.25, value=0, step=.01),
-        sliderInput(paste0(id,"_int_sg"), "Maternal peer-support groups coverage", min=0, max=1, value=.80, step=.05),
-        sliderInput(paste0(id,"_int_dtg"), "TLD/DTG regimen share", min=0, max=1, value=.98, step=.01),
-        sliderInput(paste0(id,"_int_ltfu"), "LTFU tracing coverage", min=0, max=1, value=.90, step=.05),
+        sliderInput(paste0(id,"_int_sg"), "Maternal peer-support groups coverage", min=0, max=1, value=0, step=.05),
+        sliderInput(paste0(id,"_int_ltfu"), "LTFU tracing coverage", min=0, max=1, value=0, step=.05),
         sliderInput(paste0(id,"_int_poc"), "POC viral load coverage", min=0, max=1, value=0, step=.05)
       ),
       # Right: Scenario selector + Run button
@@ -551,12 +536,35 @@ make_country_tab <- function(country_name) {
         checkboxGroupInput(paste0(id,"_selected_scenarios"),
           label = "Include scenarios:",
           choices = all_scenario_names,
-          selected = c("Baseline","Scenario 4","Scenario 7","Scenario 9")
+          selected = all_scenario_names
         ),
         hr(),
         actionButton(paste0(id,"_run"), paste0("Run scenario comparison — ", country_name),
                      class="btn-primary btn-block",
                      style="font-weight:700; font-size:14px;")
+      )
+    ),
+    # Row 1b: Cost input parameters
+    fluidRow(
+      box(width=12, title=paste(country_name, "— Cost input parameters (USD)"),
+          status="primary", solidHeader=FALSE,
+        fluidRow(
+          column(3,
+            numericInput(paste0(id,"_cost_inf_prophylaxis"), "Infant prophylaxis (per HEI)", d$cost_inf_prophylaxis, min=0, step=0.01),
+            numericInput(paste0(id,"_cost_anc_test"),        "ANC HIV test (per test)",       d$cost_anc_test,        min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_prep"),            "PrEP (per person per month)",   d$cost_prep,            min=0, step=0.01),
+            numericInput(paste0(id,"_cost_support_groups"),  "Support group (per person per month)", d$cost_support_groups, min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_dtg_monthly"),     "TLD ART (per person per month)",   d$cost_dtg_monthly,    min=0, step=0.01)
+          ),
+          column(3,
+            numericInput(paste0(id,"_cost_ltfu_min"),        "LTFU tracing (per person traced)", d$cost_ltfu_min,       min=0, step=0.01),
+            numericInput(paste0(id,"_cost_poc_vl"),          "POC viral load test (per test)",   d$cost_poc_vl,         min=0, step=0.01)
+          )
+        )
       )
     ),
     # Row 2: Scenario comparison table (styled like Table 3)
@@ -580,9 +588,6 @@ make_country_tab <- function(country_name) {
         plotOutput(paste0(id,"_ce_plot"), height="420px")
       )
     ),
-    # Row 4: Monthly trace (kept from original)
-    fluidRow(box(width=12, title="Monthly model trace (selected scenario settings above)",
-                 DTOutput(paste0(id,"_trace"))))
   )
 }
 
@@ -711,7 +716,7 @@ model_intervention_description <- data.frame(
     "Point-of-care viral load testing"
   ),
   App_parameter = c(
-    "int_infant_prop", "int_anc1", "int_anc2", "int_anc3", "int_prep", "int_support", "int_dtg_prop", "int_ltfu", "int_poc_vl"
+    "int_infant_prop", "int_anc1", "int_anc2", "int_anc3", "int_prep", "int_support", "int_ltfu", "int_poc_vl"
   ),
   Model_role = c(
     "Reduces infant infection risk among HIV-exposed infants receiving prophylaxis.",
@@ -755,8 +760,9 @@ ui <- dashboardPage(
   dashboardSidebar(width=245,
     sidebarMenu(id="tabs",
       menuItem("About", tabName="about"),
-      menuItem("Lancet Tables", tabName="paper_tables"),
+      menuItem("Original publication tables", tabName="paper_tables"),
       menuItem("Model description", tabName="model_description"),
+      menuItem("Country parameters", tabName="country_params"),
       menuItem("Zambia", tabName="tab_Zambia"),
       menuItem("Kenya", tabName="tab_Kenya"),
       menuItem("Mozambique", tabName="tab_Mozambique"),
@@ -791,7 +797,16 @@ ui <- dashboardPage(
                    href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext",
                    target="_blank"),
             ". The app translates the workbook model logic into R so model outputs can be compared with the Lancet paper tables."),
-          p("This is a 12-month Markov model that follows a cohort of pregnant and breastfeeding women (PBFW) parameterized to Zambia. The model incorporates seven interventions to prevent vertically transmitted, or mother to child transmission (MTCT), HIV infections: infant prophylaxis, HIV retesting at three time points (during late ANC, at delivery, and postpartum), oral pre-exposure prophylaxis (PrEP), maternal support groups (for HIV+ PBFW), shifting from Efavirenz (TLE) to Dolutegravir (TLD) antiretroviral regimen, loss to follow-up (LTFU) contact tracing, and point-of-care viral load testing. At baseline, 80% of PBFW were assumed to be on TLD, 50% of exposed infants received prophylaxis, and pregnant women received one HIV test during pregnancy. Outcomes included in this model are incident HIV infections among mothers and infants with associated intervention costs."),
+          p("This is a 12-month deterministic cohort Markov model that tracks proportions of pregnant and breastfeeding women (PBFW) flowing between HIV care states, parameterized to Zambia. The model incorporates seven interventions to prevent vertically transmitted, or mother-to-child transmission (MTCT), HIV infections:"),
+          tags$ul(
+            tags$li(tags$b("Infant prophylaxis: "), "administration of antiretroviral prophylaxis to HIV-exposed infants at delivery"),
+            tags$li(tags$b("HIV retesting: "), "additional HIV testing at three optional time points — during late antenatal care (ANC), at delivery, and postpartum"),
+            tags$li(tags$b("Oral pre-exposure prophylaxis (PrEP): "), "daily antiretroviral prophylaxis for HIV-negative PBFW"),
+            tags$li(tags$b("Maternal peer-support groups: "), "structured support for HIV-positive PBFW to improve ART adherence and retention"),
+            tags$li(tags$b("Loss-to-follow-up (LTFU) contact tracing: "), "active outreach to re-engage PBFW who have disengaged from HIV care"),
+            tags$li(tags$b("Point-of-care viral load (POC VL) testing: "), "rapid on-site viral load testing to support timely clinical decision-making")
+          ),
+          p("TLD (dolutegravir-based) ART is assumed universal for all HIV-infected PBFW. At baseline, 50% of exposed infants received prophylaxis and pregnant women received one HIV test during pregnancy. Outcomes included in this model are incident HIV infections among mothers and infants with associated intervention costs."),
           p("Country parameters for Kenya, Mozambique, Malawi, Zimbabwe, and South Africa are editable starter values and should be replaced with country-specific Spectrum/AIM, DHS, PHIA, PEPFAR/MER, or Thembisa inputs before decision use.")
         )
       ),
@@ -810,8 +825,8 @@ ui <- dashboardPage(
               tags$li(tags$b("Population followed: "), "Pregnant and breastfeeding women parameterized to Zambia in the original paper and workbook. The Shiny app keeps that Zambia structure and allows editable country inputs for additional comparisons."),
               tags$li(tags$b("Reproductive compartments: "), "Women are allocated to pregnancy, delivery, and breastfeeding compartments. Pregnancy lasts approximately nine monthly cycles, delivery is treated as a short transition state, and breastfeeding exits over the breastfeeding period."),
               tags$li(tags$b("HIV-care states: "), "Within each reproductive compartment, women are represented as HIV-negative, HIV-infected and undiagnosed, diagnosed but not on ART, on ART but not virally suppressed, and virally suppressed."),
-              tags$li(tags$b("Baseline assumptions: "), "At baseline, 80% of pregnant and breastfeeding women on ART are on TLD, 50% of HIV-exposed infants receive prophylaxis, and pregnant women receive one HIV test during pregnancy."),
-              tags$li(tags$b("Intervention scenario: "), "The intervention scenario turns on combinations of infant prophylaxis, HIV retesting, oral PrEP, maternal support groups, regimen shift to TLD, LTFU contact tracing, and point-of-care viral load testing."),
+              tags$li(tags$b("Baseline assumptions: "), "TLD (dolutegravir-based) ART is assumed universal for all HIV-infected PBFW. At baseline, 50% of HIV-exposed infants receive prophylaxis and pregnant women receive one HIV test during pregnancy."),
+              tags$li(tags$b("Intervention scenario: "), "The intervention scenario turns on combinations of infant prophylaxis, HIV retesting, oral PrEP, maternal support groups, LTFU contact tracing, and point-of-care viral load testing."),
               tags$li(tags$b("Outcomes: "), "Incident HIV infections among infants and mothers, intervention costs, infections averted, and incremental cost-effectiveness ratios."),
               tags$li(tags$b("Validation: "), "The app translates the Excel workbook equations into R so model outputs can be compared against Lancet paper tables and workbook outputs.")
             )
@@ -828,11 +843,25 @@ ui <- dashboardPage(
           ),
           tabPanel("R model code",
             p("The core Markov model R code is shown below for reference. This is the ", tags$code("run_model()"), " function that implements the Excel workbook logic.", style="margin-top:10px;"),
-            tags$pre(style="background:#f8f8f8; border:1px solid #ddd; border-radius:4px; padding:14px; font-size:11.5px; overflow-x:auto; max-height:600px; overflow-y:auto;",
-              tags$code(class="language-r",
+            div(style="margin-bottom:6px;",
+              tags$button("Copy code to clipboard", id="copy_rcode_btn",
+                onclick="
+                  var txt = document.getElementById('rcode_block').innerText;
+                  navigator.clipboard.writeText(txt).then(function(){
+                    var btn = document.getElementById('copy_rcode_btn');
+                    btn.innerText = 'Copied!';
+                    setTimeout(function(){ btn.innerText = 'Copy code to clipboard'; }, 2000);
+                  });
+                ",
+                class="btn btn-default btn-sm")
+            ),
+            div(id="rcode_block",
+              style="background:#f8f8f8; border:1px solid #ddd; border-radius:4px; padding:14px; font-size:11.5px; overflow:auto; height:calc(100vh - 280px); min-height:300px;",
+              tags$pre(style="margin:0; white-space:pre; background:transparent; border:none; padding:0;",
+                tags$code(class="language-r",
 "run_model <- function(params, n_months = 12,
                       int_infant_prop, int_anc1, int_anc2, int_anc3,
-                      int_prep, int_support, int_dtg_prop, int_efz_prop,
+                      int_prep, int_support,
                       int_ltfu, int_poc_vl) {
   # Merge country-specific and shared parameters
   p <- safe_param_list(params, country_defaults$Zambia)
@@ -846,11 +875,15 @@ ui <- dashboardPage(
   transition_pregnancy <- p$birth_rate_monthly
   transition_hiv       <- p$hiv_incidence_annual / 12
 
+  # TLD (DTG) is assumed universal (100%). Backflow and viral suppression
+  # multiplier are fixed constants from the DTG-specific parameters.
+  backflow_fixed <- p$backflow_dtg   # 0.007917
+  vs_mult_fixed  <- 1.64             # 1 + 1.0 * 0.64
+
   # Determine whether any intervention is active
   intervention_on <- isTRUE(int_infant_prop > p$pct_inf_prophylaxis) ||
     isTRUE(int_anc1 > 0) || isTRUE(int_anc2 > 0) || isTRUE(int_anc3 > 0) ||
     isTRUE(int_prep > 0) || isTRUE(int_support > 0) ||
-    isTRUE(abs(int_dtg_prop - p$pct_dtg) > 1e-12) ||
     isTRUE(int_ltfu > 0) || isTRUE(int_poc_vl > 0)
 
   # --- Intervention multipliers (from Excel Intervention Multipliers sheet) ---
@@ -864,8 +897,6 @@ ui <- dashboardPage(
   mtct_diag_mult   <- ip_adj * support_mtct_mult
   mtct_art_mult    <- ip_adj * support_mtct_mult
   mtct_vs_mult     <- ip_adj
-  vs_preg_mult     <- 1 + int_dtg_prop * 0.64
-  vs_bf_mult       <- 1 + int_dtg_prop * 0.64
   ltfu_mult        <- if (isTRUE(int_ltfu > 0)) 1 - int_ltfu * (1 - 0.71) else 1
   art_preg_mult    <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
   art_bf_mult      <- if (isTRUE(int_poc_vl > 0)) 1 + int_poc_vl * 0.10 else 1
@@ -945,7 +976,49 @@ ui <- dashboardPage(
   }))
   out
 }"
+                )
               )
+            )
+          )
+        )
+      ),
+      tabItem("country_params",
+        box(width=12, title="Country parameters — sources and default values",
+            status="primary", solidHeader=TRUE,
+          p("Default epidemiological and cost parameters for each country are drawn from the sources listed below.
+             ", tags$b("All parameters are editable within each country tab."), "
+             Non-Zambia cost parameters are indicative estimates
+             and should be replaced with country-specific data before use in policy decisions."),
+          tabBox(width=12,
+
+            # ── Epidemiological parameters tab ──────────────────────────────
+            tabPanel("Epidemiological parameters",
+              p(style="margin-top:8px; color:#555;",
+                "Sources: ",
+                tags$a("UNAIDS AIDSinfo 2024", href="https://aidsinfo.unaids.org/", target="_blank"), " — ",
+                tags$a("PHIA Project (ZAMPHIA 2021, KENPHIA 2018, MPHIA 2020–21, ZIMPHIA 2020)", href="https://phia.icap.columbia.edu/", target="_blank"), " — ",
+                tags$a("INSIDA 2021 (Mozambique)", href="https://www.misau.gov.mz/", target="_blank"), " — ",
+                tags$a("HSRC South Africa 2022", href="https://www.hsrc.ac.za/", target="_blank"), " — ",
+                tags$a("UN World Population Prospects 2024", href="https://population.un.org/wpp/", target="_blank"), " — ",
+                tags$a("World Bank Open Data", href="https://data.worldbank.org/", target="_blank")
+              ),
+              DTOutput("country_epi_table")
+            ),
+
+            # ── Cost parameters tab ─────────────────────────────────────────
+            tabPanel("Cost parameters",
+              p(style="margin-top:8px; color:#555;",
+                "Zambia cost parameters are from the original Chevalier et al. (2024) workbook costing analysis. ",
+                "Non-Zambia values are indicative estimates informed by regional procurement benchmarks and should be replaced with country-specific data. ",
+                "Sources: ",
+                tags$a("Chevalier et al., Lancet Global Health 2024 (Zambia)", href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext", target="_blank"), " — ",
+                tags$a("PEPFAR/GHSD ARV price lists", href="https://www.prepwatch.org/resources/prep-procurement/", target="_blank"), " — ",
+                tags$a("WHO-CHOICE unit costs", href="https://www.who.int/teams/health-economics/cost-effectiveness", target="_blank"), " — ",
+                tags$a("Global Fund price reporting", href="https://www.theglobalfund.org/en/sourcing-management/price-reporting/", target="_blank")
+              ),
+              p(style="color:#555; font-size:13px;",
+                "TLD (dolutegravir-based) ART is assumed universal. The TLD ART cost is the per-person-per-month drug and delivery cost."),
+              DTOutput("country_cost_table")
             )
           )
         )
@@ -1009,17 +1082,89 @@ server <- function(input, output, session) {
   output$model_intervention_table <- renderDT(datatable(model_intervention_description, options=list(dom='t', paging=FALSE, searching=FALSE, info=FALSE), rownames=FALSE))
   output$model_output_table <- renderDT(datatable(model_output_description, options=list(dom='t', paging=FALSE, searching=FALSE, info=FALSE), rownames=FALSE))
 
+  # Country parameter tables for the "Country parameters" section
+  output$country_epi_table <- renderDT({
+    epi_df <- data.frame(
+      Country            = names(country_defaults),
+      Pregnant_pop       = sapply(country_defaults, `[[`, "pregnant_pop"),
+      HIV_prev_15_49     = sapply(country_defaults, `[[`, "hiv_prev"),
+      Pct_diagnosed      = sapply(country_defaults, `[[`, "pct_diagnosed"),
+      Pct_on_ART         = sapply(country_defaults, `[[`, "pct_art"),
+      Pct_virally_supp   = sapply(country_defaults, `[[`, "pct_virally_supp"),
+      Pct_inf_prophylaxis= sapply(country_defaults, `[[`, "pct_inf_prophylaxis"),
+      HIV_incidence_annual = sapply(country_defaults, `[[`, "hiv_incidence_annual"),
+      Source = c(
+        "ZAMPHIA 2021; Chevalier et al. 2024",
+        "KENPHIA 2018; UNAIDS 2024",
+        "INSIDA 2021; UNAIDS 2024",
+        "MPHIA 2020–21; UNAIDS 2024",
+        "ZIMPHIA 2020; UNAIDS 2024",
+        "HSRC 2022; UNAIDS 2024"
+      ),
+      stringsAsFactors = FALSE
+    )
+    datatable(epi_df,
+      colnames = c("Country","Annual pregnant pop","HIV prev (15–49)","% diagnosed","% on ART",
+                   "% virally suppressed","Baseline IP coverage","Annual HIV incidence","Source"),
+      options  = list(dom='t', paging=FALSE, searching=FALSE, info=FALSE, scrollX=TRUE),
+      rownames = FALSE
+    ) %>%
+      formatPercentage(c("HIV_prev_15_49","Pct_diagnosed","Pct_on_ART","Pct_virally_supp",
+                         "Pct_inf_prophylaxis","HIV_incidence_annual"), digits=1)
+  })
+
+  output$country_cost_table <- renderDT({
+    cost_df <- data.frame(
+      Country              = names(country_defaults),
+      IP_per_HEI           = sapply(country_defaults, `[[`, "cost_inf_prophylaxis"),
+      ANC_test             = sapply(country_defaults, `[[`, "cost_anc_test"),
+      PrEP_per_person_month= sapply(country_defaults, `[[`, "cost_prep"),
+      Support_groups       = sapply(country_defaults, `[[`, "cost_support_groups"),
+      TLD_per_person_month = sapply(country_defaults, `[[`, "cost_dtg_monthly"),
+      LTFU_per_person      = sapply(country_defaults, `[[`, "cost_ltfu_min"),
+      POC_VL_per_test      = sapply(country_defaults, `[[`, "cost_poc_vl"),
+      Source = c(
+        "Chevalier et al. 2024 workbook (validated)",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE",
+        "PEPFAR/GHSD estimates; WHO-CHOICE"
+      ),
+      stringsAsFactors = FALSE
+    )
+    datatable(cost_df,
+      colnames = c("Country","IP ($/HEI)","ANC test ($/test)","PrEP ($/person/month)",
+                   "Support groups ($/person/month)","TLD ART ($/person/month)",
+                   "LTFU tracing ($/person traced)",
+                   "POC VL ($/test)","Source"),
+      options  = list(dom='t', paging=FALSE, searching=FALSE, info=FALSE, scrollX=TRUE),
+      rownames = FALSE
+    ) %>%
+      formatCurrency(c("IP_per_HEI","ANC_test","PrEP_per_person_month","Support_groups",
+                       "TLD_per_person_month","LTFU_per_person","POC_VL_per_test"),
+                     "$", digits=2)
+  })
+
   gather_params <- function(cn) {
     id <- gsub(" ", "_", cn)
     d <- country_defaults[[cn]]
-    d$pregnant_pop <- safe_num(input[[paste0(id,"_pregnant_pop")]], d$pregnant_pop)
-    d$hiv_prev <- safe_num(input[[paste0(id,"_hiv_prev")]], d$hiv_prev)
-    d$pct_diagnosed <- safe_num(input[[paste0(id,"_pct_diagnosed")]], d$pct_diagnosed)
-    d$pct_art <- safe_num(input[[paste0(id,"_pct_art")]], d$pct_art)
-    d$pct_virally_supp <- safe_num(input[[paste0(id,"_pct_virally_supp")]], d$pct_virally_supp)
-    d$pct_dtg <- safe_num(input[[paste0(id,"_pct_dtg")]], d$pct_dtg)
-    d$pct_inf_prophylaxis <- safe_num(input[[paste0(id,"_pct_inf_prophylaxis")]], d$pct_inf_prophylaxis)
+    # Epidemiological parameters
+    d$pregnant_pop         <- safe_num(input[[paste0(id,"_pregnant_pop")]],         d$pregnant_pop)
+    d$hiv_prev             <- safe_num(input[[paste0(id,"_hiv_prev")]],             d$hiv_prev)
+    d$pct_diagnosed        <- safe_num(input[[paste0(id,"_pct_diagnosed")]],        d$pct_diagnosed)
+    d$pct_art              <- safe_num(input[[paste0(id,"_pct_art")]],              d$pct_art)
+    d$pct_virally_supp     <- safe_num(input[[paste0(id,"_pct_virally_supp")]],     d$pct_virally_supp)
+    d$pct_inf_prophylaxis  <- safe_num(input[[paste0(id,"_pct_inf_prophylaxis")]],  d$pct_inf_prophylaxis)
     d$hiv_incidence_annual <- safe_num(input[[paste0(id,"_hiv_incidence_annual")]], d$hiv_incidence_annual)
+    # Cost parameters
+    d$cost_inf_prophylaxis <- safe_num(input[[paste0(id,"_cost_inf_prophylaxis")]], d$cost_inf_prophylaxis)
+    d$cost_anc_test        <- safe_num(input[[paste0(id,"_cost_anc_test")]],        d$cost_anc_test)
+    d$cost_prep            <- safe_num(input[[paste0(id,"_cost_prep")]],            d$cost_prep)
+    d$cost_support_groups  <- safe_num(input[[paste0(id,"_cost_support_groups")]],  d$cost_support_groups)
+    d$cost_dtg_monthly     <- safe_num(input[[paste0(id,"_cost_dtg_monthly")]],     d$cost_dtg_monthly)
+    d$cost_ltfu_min        <- safe_num(input[[paste0(id,"_cost_ltfu_min")]],        d$cost_ltfu_min)
+    d$cost_poc_vl          <- safe_num(input[[paste0(id,"_cost_poc_vl")]],          d$cost_poc_vl)
     d
   }
 
@@ -1030,18 +1175,16 @@ server <- function(input, output, session) {
       s <- custom_ints
     } else {
       s <- scenario_to_interventions(scen_name)
-      # Scale dtg/ltfu by country baseline for non-Zambia countries where applicable.
-      # Baseline scenario uses the country's own baseline proportions.
+      # Baseline scenario uses the country's own baseline IP coverage.
       if (scen_name == "Baseline") {
-        s$dtg <- params$pct_dtg
         s$ip  <- params$pct_inf_prophylaxis
       }
     }
     anc1 <- s$anc1; anc2 <- s$anc2; anc3 <- s$anc3
     df   <- run_model(params, 12, s$ip, anc1, anc2, anc3,
-                      s$prep, s$support, s$dtg, 1-s$dtg, s$ltfu, s$poc)
+                      s$prep, s$support, s$ltfu, s$poc)
     cost <- compute_costs(df, params, 12, s$ip, anc1, anc2, anc3,
-                          s$prep, s$support, s$dtg, 1-s$dtg, s$ltfu, s$poc)
+                          s$prep, s$support, s$ltfu, s$poc)
     infant_inf  <- sum(df$child_inf_total[-1])
     maternal_inf <- sum(pmax(df$maternal_incident_hiv[-1], 0))
     list(df=df, cost=cost, infant_inf=infant_inf, maternal_inf=maternal_inf,
@@ -1114,7 +1257,6 @@ server <- function(input, output, session) {
         anc_desc,
         if (isTRUE(s$prep  > 0)) paste0("PrEP ", round(s$prep*100), "%"),
         if (isTRUE(s$support > 0)) paste0("Support groups ", round(s$support*100), "%"),
-        paste0("TLD ", round(s$dtg*100), "%"),
         if (isTRUE(s$ltfu  > 0)) paste0("LTFU tracing ", round(s$ltfu*100), "%"),
         if (isTRUE(s$poc   > 0)) paste0("POC VL ", round(s$poc*100), "%")
       )
@@ -1155,7 +1297,6 @@ server <- function(input, output, session) {
         updateSliderInput(session,  paste0(id,"_int_anc_prop"), value=cov)
         updateSliderInput(session,  paste0(id,"_int_prep"),  value=s$prep)
         updateSliderInput(session,  paste0(id,"_int_sg"),    value=s$support)
-        updateSliderInput(session,  paste0(id,"_int_dtg"),   value=s$dtg)
         updateSliderInput(session,  paste0(id,"_int_ltfu"),  value=s$ltfu)
         updateSliderInput(session,  paste0(id,"_int_poc"),   value=s$poc)
       })
@@ -1174,7 +1315,6 @@ server <- function(input, output, session) {
           anc3    = if (identical(anc_strat, 3L)) anc_prop else 0,
           prep    = safe_num(input[[paste0(id,"_int_prep")]],  0),
           support = safe_num(input[[paste0(id,"_int_sg")]],    0),
-          dtg     = safe_num(input[[paste0(id,"_int_dtg")]],   params$pct_dtg),
           ltfu    = safe_num(input[[paste0(id,"_int_ltfu")]],  0),
           poc     = safe_num(input[[paste0(id,"_int_poc")]],   0)
         )
@@ -1208,16 +1348,16 @@ server <- function(input, output, session) {
         })
         country_ce_data[[id]] <- bind_rows(ce_rows)
 
-        # Also store latest custom run for trace
+        # Also store latest custom run
         custom_df <- run_model(params, 12,
                                custom_ints$ip, custom_ints$anc1, custom_ints$anc2, custom_ints$anc3,
-                               custom_ints$prep, custom_ints$support, custom_ints$dtg, 1-custom_ints$dtg,
+                               custom_ints$prep, custom_ints$support,
                                custom_ints$ltfu, custom_ints$poc)
         country_results[[id]] <- list(base=base_res$df, int=custom_df)
         country_costs[[id]]   <- list(base=base_res$cost,
                                       int=compute_costs(custom_df, params, 12,
                                             custom_ints$ip, custom_ints$anc1, custom_ints$anc2, custom_ints$anc3,
-                                            custom_ints$prep, custom_ints$support, custom_ints$dtg, 1-custom_ints$dtg,
+                                            custom_ints$prep, custom_ints$support,
                                             custom_ints$ltfu, custom_ints$poc))
       })
 
@@ -1343,20 +1483,6 @@ server <- function(input, output, session) {
         }
       )
 
-      # ── Monthly trace (shows baseline vs custom intervention settings) ─────
-      output[[paste0(id,"_trace")]] <- renderDT({
-        res <- country_results[[id]]
-        if (is.null(res)) return(NULL)
-        out <- data.frame(
-          Month            = res$base$t[-1],
-          Baseline         = round(res$base$child_inf_total[-1], 1),
-          Scenario         = round(res$int$child_inf_total[-1], 1),
-          Averted          = round(res$base$child_inf_total[-1] - res$int$child_inf_total[-1], 1),
-          Maternal_incident_HIV = round(res$int$maternal_incident_hiv[-1], 1),
-          LTFU             = round(res$int$ltfu[-1], 1)
-        )
-        datatable(out, options=list(dom='t', paging=FALSE, searching=FALSE, info=FALSE), rownames=FALSE)
-      })
     })
   }
 
