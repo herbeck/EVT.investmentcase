@@ -16,7 +16,6 @@ library(ggrepel)
 paper_table1 <- data.frame(
   Intervention = c(
     "Infant prophylaxis",
-    "Regimen shift",
     "HIV retesting option one",
     "HIV retesting option two",
     "HIV retesting option three",
@@ -27,7 +26,6 @@ paper_table1 <- data.frame(
   ),
   Description = c(
     "6-week course of nevirapine for infants exposed to HIV",
-    "ART regimen shift from efavirenz-based TLE to dolutegravir-based TLD regimens",
     "HIV retesting during late antenatal care, delivery, or 6 weeks postpartum",
     "HIV retesting during late antenatal care, delivery, or 6 weeks postpartum, with an additional test at 14 weeks postpartum",
     "HIV retesting during late antenatal care, delivery, or 6 weeks postpartum and additional retesting every 3 months during breastfeeding",
@@ -38,7 +36,6 @@ paper_table1 <- data.frame(
   ),
   Effect_measure_range = c(
     "50% (40-70)",
-    "64% (31-106)",
     "19% (12-20)",
     "21% (13-21)",
     "22% (13-23)",
@@ -49,7 +46,6 @@ paper_table1 <- data.frame(
   ),
   Model_impact = c(
     "Reduction in vertical transmission; implemented for 50% of population at baseline",
-    "Increased rate of transition to viral suppression; implemented for 80% of population at baseline",
     "Reduction in vertical transmission",
     "Reduction in vertical transmission",
     "Reduction in vertical transmission",
@@ -58,7 +54,7 @@ paper_table1 <- data.frame(
     "Reduced loss to follow-up",
     "Increased movement to ART / viral suppression"
   ),
-  Theoretical_maximum = c("90%", "98%", "90%", "85%", "80%", "10%", "80%", "90%", "60%"),
+  Theoretical_maximum = c("90%", "90%", "85%", "80%", "10%", "80%", "90%", "60%"),
   stringsAsFactors = FALSE
 )
 
@@ -805,8 +801,8 @@ ui <- dashboardPage(
             tags$a("Chevalier et al., Lancet Global Health 2024",
                    href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext",
                    target="_blank"),
-            ". The app translates the workbook model logic into R so model outputs can be compared with the Lancet paper tables."),
-          p("This is a 12-month deterministic cohort Markov model that tracks proportions of pregnant and breastfeeding women (PBFW) flowing between HIV care states, parameterized to Zambia. The model incorporates seven interventions to prevent vertically transmitted, or mother-to-child transmission (MTCT), HIV infections:"),
+            ". The app translates the Chevalier model model logic into R."),
+          p("This is a 12-month deterministic cohort Markov model that tracks proportions of pregnant and breastfeeding women (PBFW) flowing between HIV care states, originally parameterized to Zambia. The model incorporates six interventions to eliminate vertical transmission (EVT):"),
           tags$ul(
             tags$li(tags$b("Infant prophylaxis: "), "administration of antiretroviral prophylaxis to HIV-exposed infants at delivery"),
             tags$li(tags$b("HIV retesting: "), "additional HIV testing at three optional time points — during late antenatal care (ANC), at delivery, and postpartum"),
