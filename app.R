@@ -759,7 +759,7 @@ model_output_description <- data.frame(
 
 ui <- dashboardPage(
   skin="blue",
-  dashboardHeader(title="EVT/EMTCT Investment Case Model", titleWidth=330),
+  dashboardHeader(title="EVT Investment Case Model", titleWidth=330),
   dashboardSidebar(width=245,
     sidebarMenu(id="tabs",
       menuItem("About", tabName="about"),
@@ -796,7 +796,7 @@ ui <- dashboardPage(
     tabItems(
       tabItem("about",
         box(width=12, title="About", status="primary", solidHeader=TRUE,
-          p("This app recreates the EVT/EMTCT investment case model from ",
+          p("This app recreates the EVT investment case model from ",
             tags$a("Chevalier et al., Lancet Global Health 2024",
                    href="https://www.thelancet.com/journals/langlo/article/PIIS2214-109X(23)00588-0/fulltext",
                    target="_blank"),
