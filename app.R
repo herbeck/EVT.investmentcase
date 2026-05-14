@@ -61,12 +61,11 @@ paper_table1 <- data.frame(
 paper_table2 <- data.frame(
   Intervention = c(
     "Infant prophylaxis", "Antenatal HIV test", "Pre-exposure prophylaxis",
-    "Antiretroviral therapy - TLD", "Antiretroviral therapy - TLE",
     "Maternal peer-support groups", "Loss to follow-up tracing", "Point-of-care viral load"
   ),
-  Cost_USD_2022 = c(12.86, 2.99, 16.89, 10.39, 10.67, 1.39, 4.25, 8.03),
+  Cost_USD_2022 = c(12.86, 2.99, 16.89, 1.39, 4.25, 8.03),
   Timeframe = c(
-    "Per 6-week treatment", "Per test", "Per month", "Per month", "Per month",
+    "Per 6-week treatment", "Per test", "Per month",
     "Per session", "Per person traced", "Additional cost per test above centralised viral load testing"
   ),
   Cost_components = "Drugs, laboratory, staff, and overhead where applicable",
